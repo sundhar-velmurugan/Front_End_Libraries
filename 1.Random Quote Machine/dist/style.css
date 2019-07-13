@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Quintessential&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Berkshire+Swash&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Literata:500&display=swap');
+
+:root {
+  --theme-color: gray;
+}
+#root{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--theme-color);
+}
+.card-block{
+  width: 500px;
+  padding: 15px;
+}
+.btn:hover{
+  background-color: var(--theme-color);
+  border: none;
+}
+#text{
+  font-family: 'Berkshire Swash', cursive;
+}
+#author{
+  font-family: 'Quintessential', cursive;
+}
+#new-quote, #tweet-quote{
+  font-family: 'Literata', serif;
+}
