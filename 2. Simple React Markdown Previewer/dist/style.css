@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Slabo+27px&display=swap");
+body {
+  background-color: #f1f1f1;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+#heading {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: 'Slabo 27px', serif;
+}
+
+.box {
+  width: 49.5%;
+  height: 85vh;
+  float: left;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.box .panel-heading {
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+  background-color: darkgrey;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.box .editor-heading {
+  border: 1px solid black;
+}
+.box .preview-heading {
+  border: 1px solid black;
+  border-left: 0;
+}
+.box #editor-div {
+  border: 1px solid black;
+  border-top: none;
+  border-right: none;
+  display: flex;
+  flex-grow: 1;
+}
+.box #editor-div #editor {
+  flex-grow: 1;
+  background-color: #f1f1f1;
+}
+.box #preview {
+  border: 1px solid black;
+  border-top: none;
+  overflow: auto;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
