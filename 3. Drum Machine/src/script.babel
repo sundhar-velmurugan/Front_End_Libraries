@@ -1,0 +1,93 @@
+class Drum extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      message: "Play Away!!"
+    }
+  }
+  
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown, true);
+  }
+  
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, true);
+  }
+  
+  playSound = (element, id) => {
+    element.play();
+    this.setState({
+      message: id.concat(' Sound')
+    })
+  }
+  
+  handleClick = (id) => {
+    this.playSound(document.getElementById(id), id);
+  }
+  
+  handleKeyDown = (event) => {
+    let element = document.getElementById(String.fromCharCode(event.keyCode));
+    (element
+      ? this.playSound(element, String.fromCharCode(event.keyCode))
+      : null
+    );
+  }
+  
+  render(){
+    return (
+      <DrumMachine>
+        <div id="display">{this.state.message}</div>
+        <DrumPadContainer>
+          <DrumPad id={"Q"} onClick={(id)=>this.handleClick(id)}/>
+          <DrumPad id={"W"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"E"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"A"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"S"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"D"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"Z"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"X"} onClick={(id)=>this.handleClick(id)} />
+          <DrumPad id={"C"} onClick={(id)=>this.handleClick(id)} />
+        </DrumPadContainer>
+      </DrumMachine>
+    );
+  }
+}
+
+const DrumMachine = (props) => {
+  return (
+    <div id="drum-machine">
+      {props.children}
+    </div>
+  )
+}
+
+const DrumPadContainer = (props) => {
+  return (
+    <div id="drum-pad">
+      {props.children}
+    </div>
+  )
+}
+
+class DrumPad extends React.Component {
+  constructor(props){
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick() {
+    this.props.onClick(this.props.id);
+  }
+  
+  render(){
+    return (
+      <div class="drum-pad" id={this.props.id.charCodeAt(0)} onClick={this.handleClick}>
+        {this.props.id}
+        <audio id={this.props.id} class="clip" src='https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3'>
+        </audio>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<Drum />, document.getElementById('root'));
