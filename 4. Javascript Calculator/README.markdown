@@ -1,7 +1,7 @@
 # JavaScript Calculator
  _A Pen created at CodePen.io. Original URL: [https://codepen.io/sundhar/pen/PMjgqa](https://codepen.io/sundhar/pen/PMjgqa).
 
-##Features
+## Features
 * Display panel is divided into two parts - top panel to display expression and bottom panel to display input
 * Input is limited to 20 characters that includes both numbers and decimal point
 * Only one decimal is allowed in the input field
