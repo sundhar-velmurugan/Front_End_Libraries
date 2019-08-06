@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css?family=Saira+Stencil+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Grenze&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Blinker&display=swap');
+#root{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: Snow;
+}
+#pomodoro{
+  display: grid;
+  grid-template-columns: 250px 150px;
+  grid-template-rows: 205px;
+  grid-column-gap: 5px;
+}
+#leftPanel{
+  display: grid;
+  grid-template-rows: 140px 60px;
+  grid-template-columns: 250px;
+  grid-row-gap: 5px;
+  border: 4px solid DarkSlateGray;
+  border-radius: 5%;
+}
+#rightPanel{
+  display: grid;
+  grid-template-rows: repeat(2, 100px);
+  grid-template-columns: 150px;
+  grid-row-gap: 5px;
+}
+#clock{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#controls{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#session{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid DarkSlateGray;
+  border-radius: 5%;
+  flex-direction: column;
+}
+#break{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid DarkSlateGray;
+  border-radius: 5%;
+  flex-direction: column;
+}
+#session-controls, #break-controls{
+  display: flex;
+  height: 25px;
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 500;
+  font-family: 'Blinker', sans-serif;
+}
+#session-controls button, #break-controls button{
+  padding: 0px 5px;
+  margin: 0 5px;
+}
+#controls button{
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+.main-label{
+  font-size: 34px;
+  font-weight: 800;
+  font-family: 'Grenze', serif;
+}
+.side-label{
+  font-size: 24px;
+  font-weight: 500;
+  font-family: 'Grenze', serif;
+}
+#time-left{
+  font-size: 52px;
+  line-height: 60px;
+  font-weight: 700;
+  font-family: 'Saira Stencil One', cursive;
+}

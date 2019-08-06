@@ -1,0 +1,223 @@
+/*---------------------------UTILS--------------------------------*/
+const convertSecToMinSec = time => {
+  let hour = Math.floor(time/60);
+  let second = time%60;
+  
+  hour = hour<10 ? `0${hour}` : hour;
+  second = second<10 ? `0${second}` : second;
+  
+  return `${hour}:${second}`;
+}
+
+const capitalize = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+/*-------------------------COMPONENT------------------------------*/
+class Pomodoro extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      sessionLength: 25,
+      breakLength: 5,
+      timerLabel: 'Session',
+      timeLeft: 1500,
+      isRunning: false
+    }
+    
+    this.incrementLength = this.incrementLength.bind(this);
+    this.decrementLength = this.decrementLength.bind(this);
+    this.resetClock = this.resetClock.bind(this);
+    this.runClock = this.runClock.bind(this);
+    this.updateTimeLeft = this.updateTimeLeft.bind(this);
+    this.triggerChange = this.triggerChange.bind(this);
+  }
+  
+  incrementLength(division) {
+    if (division === 'session') {
+      let { sessionLength, timeLeft } = this.state;
+      if(sessionLength+1<=60) {
+        sessionLength = sessionLength+1;
+        timeLeft = timeLeft+60;
+        this.setState({
+          sessionLength,
+          timeLeft
+        },()=>{});
+      }
+    } else {
+      let { breakLength } = this.state;
+      if(breakLength+1<=60) {
+        breakLength = breakLength+1;
+          this.setState({
+          breakLength
+        }, ()=>{});
+      }
+    }
+  }
+  
+  decrementLength(division) {
+    if (division === 'session') {
+      let { sessionLength, timeLeft } = this.state;
+      if(sessionLength-1>0) {
+        sessionLength = sessionLength-1;
+        timeLeft = timeLeft-60;
+        this.setState({
+          sessionLength,
+          timeLeft
+        },()=>{});
+      }
+    } else {
+      let { breakLength } = this.state;
+      if(breakLength-1>0) {
+        breakLength = breakLength-1;
+          this.setState({
+          breakLength
+        }, ()=>{});
+      }
+    }
+  }
+  
+  resetClock() {
+    this.setState({
+      sessionLength: 25,
+      breakLength: 5,
+      timerLabel: 'Session',
+      timeLeft: 1500,
+      isRunning: false
+    }, ()=>{
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    });
+  }
+  
+  runClock() {
+    let { isRunning } = this.state;
+    this.setState({
+      isRunning: !isRunning
+    }, ()=>{});
+  }
+  
+  updateTimeLeft(timeLeft) {
+    this.setState({
+      timeLeft
+    }, ()=>{})
+  }
+  
+  triggerChange() {
+    let { timerLabel } = this.state;
+    this.runClock();
+    this.audio.play();
+    if (timerLabel === 'Session') {
+      this.setState({
+        timerLabel: 'Break',
+        timeLeft: this.state.breakLength*60,
+        isRunning: true
+      }, ()=>{});
+    } else {
+      this.setState({
+        timerLabel: 'Session',
+        timeLeft: this.state.sessionLength*60,
+        isRunning: true
+      }, ()=>{});
+    }
+  }
+  
+  render() {
+    let {
+      timerLabel,
+      timeLeft,
+      sessionLength,
+      breakLength,
+      isRunning
+    } = this.state;
+    return (
+      <div id="pomodoro">
+        <LeftPanel timerLabel={timerLabel} timeLeft={timeLeft} onResetClick={this.resetClock} onPlayClick={this.runClock} isRunning={isRunning} updateTimeLeft={tleft=>this.updateTimeLeft(tleft)} triggerChange={this.triggerChange}/>
+        <RightPanel onIncrementClick={div=>this.incrementLength(div)} onDecrementClick={div=>this.decrementLength(div)} isRunning={isRunning} sessionLength={sessionLength} breakLength={breakLength}/>
+        <audio id="beep" preload="auto" src="https://goo.gl/65cBl1" ref={(audio) => { this.audio = audio; }} />
+      </div>
+    )
+  }
+}
+
+function LeftPanel(props) {
+  return (
+    <div id="leftPanel">
+      <div id="clock">
+        <p id="timer-label" className="main-label">{props.timerLabel}</p>
+        <p id="time-left">{props.isRunning ? <Counter isRunning={props.isRunning} timeLeft={props.timeLeft} updateTimeLeft={tleft=>props.updateTimeLeft(tleft)} triggerChange={props.triggerChange}/> : convertSecToMinSec(props.timeLeft)}</p>
+      </div>
+      <div id="controls">
+        <button id="start_stop" className="btn btn-dark" onClick={props.onPlayClick}>
+          <i className="fa fa-play" aria-hidden="true"></i>
+          <i className="fa fa-pause" aria-hidden="true"></i>
+        </button>
+        <button id="reset" className="btn btn-info" onClick={props.onResetClick}>
+          <i className="fa fa-repeat" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  )
+}
+
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    let { timeLeft } = this.props;
+    this.state = {
+      timeLeft
+    };
+  }
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      if (this.props.isRunning) {
+        if (this.state.timeLeft-1>=0) {
+          this.setState({
+              timeLeft: this.state.timeLeft - 1
+            },
+            ()=>{this.props.updateTimeLeft(this.state.timeLeft)}
+          );
+        } else {
+          this.props.triggerChange();
+        }
+      }
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+  render() {
+    return (
+      <React.Fragment>{convertSecToMinSec(this.state.timeLeft)}</React.Fragment>
+    )
+  }
+}
+
+function RightPanel(props) {
+  return (
+    <div id="rightPanel">
+      <Input division="session" onIncrementClick={division=>props.onIncrementClick(division)} onDecrementClick={division=>props.onDecrementClick(division)} isRunning={props.isRunning} length={props.sessionLength} />
+      <Input division="break" onIncrementClick={division=>props.onIncrementClick(division)} onDecrementClick={division=>props.onDecrementClick(division)} isRunning={props.isRunning} length={props.breakLength} />
+    </div>
+  )
+}
+
+function Input(props) {
+  let { division, isRunning } = props;
+  return (
+    <div id={division}>
+      <p id={`${division}-label`} className="side-label">{capitalize(division)} Length</p>
+      <span id={`${division}-controls`}>
+        <button id={`${division}-decrement`} className="btn btn-danger" onClick={isRunning ? ()=>{} : ()=>props.onDecrementClick(division)}>
+          <i className="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <p id={`${division}-length`}>{props.length.toString()}</p>
+        <button id={`${division}-increment`} className="btn btn-success" onClick={isRunning ? ()=>{} : ()=>props.onIncrementClick(division)}>
+          <i className="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </span>
+    </div>
+  )
+}
+
+ReactDOM.render(<Pomodoro />, document.getElementById('root'));
