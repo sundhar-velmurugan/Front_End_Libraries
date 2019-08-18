@@ -3,3 +3,6 @@
 
  ### Github gist link:
  https://gist.github.com/sundhar811/41eea3cdc76b089aef26d74cc08701d2
+
+### Challenge link:
+https://learn.freecodecamp.org/front-end-libraries/front-end-libraries-projects/build-a-random-quote-machine/
