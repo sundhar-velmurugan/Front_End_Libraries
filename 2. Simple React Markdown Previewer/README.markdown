@@ -3,3 +3,6 @@
 
  ### Github gist link:
  https://gist.github.com/sundhar811/f335f12e1b0db5b1b9e84cdaacbc0ed6
+
+### Challenge link:
+https://learn.freecodecamp.org/front-end-libraries/front-end-libraries-projects/build-a-markdown-previewer/
