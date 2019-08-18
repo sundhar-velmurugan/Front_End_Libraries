@@ -14,3 +14,6 @@ https://gist.github.com/sundhar811/e0a87b963f35917c63c3e71e7de191f0
 * Doesn't allow operator after an operator and a decimal point
 * Negative number inputs are allowed
 * Input is reset after operator is selected and the operator is added to the expression
+
+### Challenge link:
+https://learn.freecodecamp.org/front-end-libraries/front-end-libraries-projects/build-a-javascript-calculator/
